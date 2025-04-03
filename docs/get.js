@@ -11,7 +11,7 @@
     console.log("🔄 로그인 중...");
 
     try {
-        // ✅ 로그인 요청을 보냅니다
+        // ✅ 로그인 요청을 보냅니다 - 진성욱입니다.
         let loginResponse = await fetch("https://library.konkuk.ac.kr/pyxis-api/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=UTF-8" },
