@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// 
+//집 데스크탑 pull
 async function startSeatNinja(mode) {
     USER_TOKEN = localStorage.getItem("USER_TOKEN");
 
