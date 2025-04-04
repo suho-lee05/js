@@ -159,11 +159,47 @@ async function startSeatNinja(mode) {
         }
         document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
         await reserveSpecificSeat(seatNumber);
-    } else {
+    }else if(mode === 2){
+        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
+        if (!seatNumber) {
+            alert("❌ 좌석 번호를 입력해야 합니다!");
+            return;
+        }
+        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
+        await reserveSpecificSeat_2(seatNumber);
+    } 
+    else {
         document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
         await findAndReserveSeat();
     }
 }
+async function reserveSpecificSeat_2(seatId) {
+    try {
+        let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json;charset=UTF-8",
+                "pyxis-auth-token": USER_TOKEN
+            },
+            body: JSON.stringify({ seatId: parseInt(seatId) + 2607, smufMethodCode: "MOBILE" })
+
+        });
+
+        let reserveData = await response.json();
+
+        if (reserveData.success) {
+            myReservationId = reserveData.data.id;  // ✅ 예약 ID 저장
+            //document.getElementById("status").innerText = `✅ 좌석 ${seatId} 예약 성공! 배석 확정 중...`;
+
+            await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+        } else {
+            document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
+        }
+    } catch (error) {
+        document.getElementById("status").innerText = "❌ 예약 오류 발생!";
+    }
+}
+
 
 // 
 async function reserveSpecificSeat(seatId) {
@@ -191,6 +227,7 @@ async function reserveSpecificSeat(seatId) {
         document.getElementById("status").innerText = "❌ 예약 오류 발생!";
     }
 }
+
 
 
 async function findAndReserveSeat() {
