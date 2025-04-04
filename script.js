@@ -220,6 +220,7 @@ async function reserveSpecificSeat_2(seatId) {
             body: JSON.stringify({ seatId: parseInt(seatId) + 2607, smufMethodCode: "MOBILE" })
 
         });
+        //안녕하세요
 
         let reserveData = await response.json();
 
