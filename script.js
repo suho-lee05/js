@@ -181,7 +181,9 @@ async function startSeatNinja(mode) {
         await findAndReserveSeat();
     }
 }
-async function reserveSpecificSeat_2(seatId) {
+
+// 
+async function reserveSpecificSeat(seatId) {
     try {
         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
             method: "POST",
@@ -189,8 +191,7 @@ async function reserveSpecificSeat_2(seatId) {
                 "Content-Type": "application/json;charset=UTF-8",
                 "pyxis-auth-token": USER_TOKEN
             },
-            body: JSON.stringify({ seatId: parseInt(seatId) + 2607, smufMethodCode: "MOBILE" })
-
+            body: JSON.stringify({ seatId: seatId, smufMethodCode: "MOBILE" })
         });
 
         let reserveData = await response.json();
@@ -208,9 +209,7 @@ async function reserveSpecificSeat_2(seatId) {
     }
 }
 
-
-// 
-async function reserveSpecificSeat(seatId) {
+async function reserveSpecificSeat_2(seatId) {
     try {
         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
             method: "POST",
@@ -218,7 +217,8 @@ async function reserveSpecificSeat(seatId) {
                 "Content-Type": "application/json;charset=UTF-8",
                 "pyxis-auth-token": USER_TOKEN
             },
-            body: JSON.stringify({ seatId: seatId, smufMethodCode: "MOBILE" })
+            body: JSON.stringify({ seatId: parseInt(seatId) + 2607, smufMethodCode: "MOBILE" })
+
         });
 
         let reserveData = await response.json();
