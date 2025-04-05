@@ -6,17 +6,17 @@ let ROOM_ID = 102;
 let stopFlag = false;
 let myReservationId = null;  // 예약된 좌석 ID 저장
 
-async function login() {
+// async function login() {
     
-    USER_ID = document.getElementById("userId").value;
-    USER_PW = document.getElementById("userPw").value;
+//     USER_ID = document.getElementById("userId").value;
+//     USER_PW = document.getElementById("userPw").value;
 
-    if (!USER_ID || !USER_PW) {
-        document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
-        return;
-    }
+//     if (!USER_ID || !USER_PW) {
+//         document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
+//         return;
+//     }
 
-    //document.getElementById("status").innerText = "🔄 로그인 중...";
+//     //document.getElementById("status").innerText = "🔄 로그인 중...";
 
 //     try {
 //         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/api/login", {
