@@ -87,7 +87,7 @@ async function login() {
         console.error("로그인 오류:", error);
     }
 }
-
+//
 
 function logout() {
     localStorage.removeItem("USER_ID");
