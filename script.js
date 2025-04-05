@@ -353,14 +353,38 @@ async function findAndReserveSeat() {
         await new Promise(resolve => setTimeout(resolve, 10000));
     }
 }
+
+// async function confirmSeat(reservationId) {
+//     try {
+//         let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges/${reservationId}?smufMethodCode=MOBILE&_method=put`, {
+//             method: "POST",
+//             headers: { 
+//                 "Content-Type": "application/json;charset=UTF-8",
+//                 "pyxis-auth-token": USER_TOKEN
+//             }
+//         });
+
+//         let data = await response.json();
+
+//         if (data.success) {
+//             document.getElementById("status").innerText = `✅ 좌석 ${reservationId} 배석 확정 완료!`;
+//         } else {
+//             document.getElementById("status").innerText = `❌ 배석 확정 실패: ${data.message}`;
+//         }
+//     } catch (error) {
+//         document.getElementById("status").innerText = "❌ 배석 확정 오류 발생!";
+//     }
+// }
+
 async function confirmSeat(reservationId) {
     try {
-        let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges/${reservationId}?smufMethodCode=MOBILE&_method=put`, {
+        let response = await fetch("https://login-proxy-server.onrender.com/api/confirm-seat", {
             method: "POST",
-            headers: { 
-                "Content-Type": "application/json;charset=UTF-8",
-                "pyxis-auth-token": USER_TOKEN
-            }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: USER_TOKEN,
+                reservationId: reservationId
+            })
         });
 
         let data = await response.json();
@@ -374,6 +398,8 @@ async function confirmSeat(reservationId) {
         document.getElementById("status").innerText = "❌ 배석 확정 오류 발생!";
     }
 }
+
+
 
 
 // 
