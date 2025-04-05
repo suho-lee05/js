@@ -6,49 +6,6 @@ let ROOM_ID = 102;
 let stopFlag = false;
 let myReservationId = null;  // 예약된 좌석 ID 저장
 
-// async function login() {
-    
-//     USER_ID = document.getElementById("userId").value;
-//     USER_PW = document.getElementById("userPw").value;
-
-//     if (!USER_ID || !USER_PW) {
-//         document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
-//         return;
-//     }
-
-//     //document.getElementById("status").innerText = "🔄 로그인 중...";
-
-//     try {
-//         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/api/login", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json;charset=UTF-8" },
-//             body: JSON.stringify({
-//                 loginId: USER_ID,
-//                 password: USER_PW,
-//                 isFamilyLogin: false,
-//                 isMobile: true
-//             })
-//         });
-
-//         let loginData = await response.json();
-
-//         if (loginData.success) {
-//             USER_TOKEN = loginData.data.accessToken;
-//             localStorage.setItem("USER_TOKEN", USER_TOKEN);  // ✅ 로그인 정보 저장
-
-//             document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
-            
-//             setTimeout(() => {
-//                 window.location.href = "main.html";  // ✅ 좌석 예약 페이지로 이동
-//             }, 1000);
-//         } else {
-//             document.getElementById("status").innerText = "❌ 로그인 실패!";
-//         }
-//     } catch (error) {
-//         document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
-//     }
-// }
-
 async function login() {
     USER_ID = document.getElementById("userId").value;
     USER_PW = document.getElementById("userPw").value;
@@ -353,14 +310,16 @@ async function findAndReserveSeat() {
         await new Promise(resolve => setTimeout(resolve, 10000));
     }
 }
+
 async function confirmSeat(reservationId) {
     try {
-        let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges/${reservationId}?smufMethodCode=MOBILE&_method=put`, {
+        let response = await fetch("https://login-proxy-server.onrender.com/api/confirm-seat", {
             method: "POST",
-            headers: { 
-                "Content-Type": "application/json;charset=UTF-8",
-                "pyxis-auth-token": USER_TOKEN
-            }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: USER_TOKEN,
+                reservationId: reservationId
+            })
         });
 
         let data = await response.json();
@@ -417,7 +376,7 @@ async function cancelReservation() {
 }
 
 
-// 
+
 async function renewSeat() {
     USER_TOKEN = localStorage.getItem("USER_TOKEN");
 
@@ -432,15 +391,14 @@ async function renewSeat() {
     }
 
     try {
-        let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-renewed-charges", {
+        let response = await fetch("https://login-proxy-server.onrender.com/api/renew-seat", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "pyxis-auth-token": USER_TOKEN
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "seatCharge": myReservationId,  // ✅ 예약된 좌석 ID
-                "smufMethodCode": "MOBILE"  // ✅ 모바일에서 연장 요청
+                token: USER_TOKEN,
+                reservationId: myReservationId
             })
         });
 
@@ -448,7 +406,7 @@ async function renewSeat() {
 
         if (data.success) {
             document.getElementById("renewStatus").innerText = "✅ 좌석이 연장되었습니다!";
-            getUserInfo(); // ✅ 연장 후 정보 다시 불러오기
+            getUserInfo(); // 다시 정보 불러오기
         } else {
             document.getElementById("renewStatus").innerText = `❌ 연장 실패: ${data.message}`;
         }
