@@ -18,15 +18,54 @@ async function login() {
 
     //document.getElementById("status").innerText = "🔄 로그인 중...";
 
+//     try {
+//         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/api/login", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json;charset=UTF-8" },
+//             body: JSON.stringify({
+//                 loginId: USER_ID,
+//                 password: USER_PW,
+//                 isFamilyLogin: false,
+//                 isMobile: true
+//             })
+//         });
+
+//         let loginData = await response.json();
+
+//         if (loginData.success) {
+//             USER_TOKEN = loginData.data.accessToken;
+//             localStorage.setItem("USER_TOKEN", USER_TOKEN);  // ✅ 로그인 정보 저장
+
+//             document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
+            
+//             setTimeout(() => {
+//                 window.location.href = "main.html";  // ✅ 좌석 예약 페이지로 이동
+//             }, 1000);
+//         } else {
+//             document.getElementById("status").innerText = "❌ 로그인 실패!";
+//         }
+//     } catch (error) {
+//         document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
+//     }
+// }
+
+async function login() {
+    USER_ID = document.getElementById("userId").value;
+    USER_PW = document.getElementById("userPw").value;
+
+    if (!USER_ID || !USER_PW) {
+        document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
+        return;
+    }
+
     try {
-        let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/api/login", {
+        // ✅ Render에 배포된 프록시 서버 주소 사용!
+        let response = await fetch("https://login-proxy-server.onrender.com/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=UTF-8" },
             body: JSON.stringify({
                 loginId: USER_ID,
-                password: USER_PW,
-                isFamilyLogin: false,
-                isMobile: true
+                password: USER_PW
             })
         });
 
@@ -34,18 +73,18 @@ async function login() {
 
         if (loginData.success) {
             USER_TOKEN = loginData.data.accessToken;
-            localStorage.setItem("USER_TOKEN", USER_TOKEN);  // ✅ 로그인 정보 저장
+            localStorage.setItem("USER_TOKEN", USER_TOKEN);
 
             document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
-            
             setTimeout(() => {
-                window.location.href = "main.html";  // ✅ 좌석 예약 페이지로 이동
+                window.location.href = "main.html";
             }, 1000);
         } else {
             document.getElementById("status").innerText = "❌ 로그인 실패!";
         }
     } catch (error) {
         document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
+        console.error("로그인 오류:", error);
     }
 }
 
