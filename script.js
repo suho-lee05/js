@@ -300,7 +300,7 @@ async function findAndReserveSeat() {
                 myReservationId = reserveData.data.id;
                 document.getElementById("status").innerText = `✅ 좌석 ${targetSeat.id} 예약 성공! 배석 확정 중...`;
 
-                await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+                await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
                 break;
             }
         } catch (error) {
