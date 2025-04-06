@@ -5,6 +5,7 @@ let USER_TOKEN = localStorage.getItem("USER_TOKEN") || "";  // 로그인 토큰 
 let ROOM_ID = 102;
 let stopFlag = false;
 let myReservationId = null;  // 예약된 좌석 ID 저장
+let seatNumber = null;
 
 async function login() {
     USER_ID = document.getElementById("userId").value;
@@ -146,7 +147,7 @@ async function startSeatNinja(mode) {
         return;
     }
 
-    let seatNumber = null;
+    
     if (mode === 1) {
         seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
         if (!seatNumber) {
@@ -300,7 +301,7 @@ async function findAndReserveSeat() {
                 myReservationId = reserveData.data.id;
                 document.getElementById("status").innerText = `✅ 좌석 ${targetSeat.id} 예약 성공! 배석 확정 중...`;
 
-                await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+                await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
                 break;
             }
         } catch (error) {
@@ -399,7 +400,8 @@ async function renewSeat() {
             },
             body: JSON.stringify({
                 token: USER_TOKEN,
-                reservationId: myReservationId
+                reservationId: myReservationId,
+                seatId:seatNumber
             })
         });
 
