@@ -196,7 +196,7 @@ async function reserveSpecificSeat(seatId) {
             myReservationId = reserveData.data.id;  // ✅ 예약 ID 저장
             //document.getElementById("status").innerText = `✅ 좌석 ${seatId} 예약 성공! 배석 확정 중...`;
 
-            await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+            await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
         }
@@ -224,7 +224,7 @@ async function reserveSpecificSeat_2(seatId) {
             myReservationId = reserveData.data.id;  // ✅ 예약 ID 저장
             //document.getElementById("status").innerText = `✅ 좌석 ${seatId} 예약 성공! 배석 확정 중...`;
 
-            await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+            await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
         }
@@ -250,7 +250,7 @@ async function reserveSpecificSeat_3(seatId) {
         if (reserveData.success) {
             myReservationId = reserveData.data.id;  // ✅ 예약 ID 저장
             
-            await confirmSeat(myReservationId); // ✅ 배석 확정 실행
+            await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
         }
@@ -311,14 +311,15 @@ async function findAndReserveSeat() {
     }
 }
 
-async function confirmSeat(reservationId) {
+async function confirmSeat(reservationId, seatId) {
     try {
         let response = await fetch("https://login-proxy-server.onrender.com/api/confirm-seat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 token: USER_TOKEN,
-                reservationId: reservationId
+                reservationId: reservationId,
+                seatId: seatId
             })
         });
 
