@@ -11,6 +11,8 @@ async function login() {
     USER_ID = document.getElementById("userId").value;
     USER_PW = document.getElementById("userPw").value;
 
+    
+
     if (!USER_ID || !USER_PW) {
         document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
         return;
@@ -32,7 +34,8 @@ async function login() {
         if (loginData.success) {
             USER_TOKEN = loginData.data.accessToken;
             localStorage.setItem("USER_TOKEN", USER_TOKEN);
-
+            localStorage.setItem("USER_ID", USER_ID); // 사용자 ID 저장 (main.html 로그용)
+            
             document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
             setTimeout(() => {
                 window.location.href = "main.html";

@@ -128,5 +128,44 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("USER_TOKEN");
+            const userId = localStorage.getItem("USER_ID");
+    
+            if (!token || !userId) return;
+    
+            try {
+                // ✅ 좌석 정보 조회로부터 이름 얻기
+                const res = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
+                    headers: {
+                        "Content-Type": "application/json;charset=UTF-8",
+                        "pyxis-auth-token": token
+                    }
+                });
+    
+                const data = await res.json();
+                if (data.success && data.data.totalCount > 0) {
+                    const name = data.data.list[0].patron.name;
+    
+                    // ✅ 서버에 로그 전송
+                    await fetch("https://login-proxy-server-production.up.railway.app/api/log-user-info", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            loginId: userId,
+                            name: name
+                        })
+                    });
+    
+                    console.log(`👤 서버에 사용자 이름(${name}) 로그 전송 완료`);
+                }
+            } catch (err) {
+                console.error("❌ 사용자 이름 로깅 실패:", err);
+            }
+        });
+    </script>
 </body>
 </html>
