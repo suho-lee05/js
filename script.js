@@ -89,8 +89,11 @@ async function getUserInfo() {
         if (data.success && data.data.totalCount > 0) {
             let reservation = data.data.list[0]; // 첫 번째 예약 정보 가져오기
             myReservationId = reservation.id;  // ✅ 배석 해제용 ID 저장
-            console.log("예약 ID:", myReservationId);  // 🔍 디버깅용 콘솔 출력
+            seatNumber = reservation.seat.id;  // ✅ 실제 API에 사용되는 seatId (숫자)
 
+            console.log("예약 ID:", myReservationId);  // 🔍 디버깅용 콘솔 출력
+            console.log("예약 좌석 번호 : ",seatNumber);
+            
             document.getElementById("userSeat").innerText = `좌석 ${reservation.seat.code} (${reservation.room.name})`;
 
             let now = new Date();
@@ -147,7 +150,6 @@ async function startSeatNinja(mode) {
         return;
     }
 
-    
     if (mode === 1) {
         seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
         if (!seatNumber) {
@@ -401,7 +403,7 @@ async function renewSeat() {
             body: JSON.stringify({
                 token: USER_TOKEN,
                 reservationId: myReservationId,
-                seatId:seatNumber
+                seatId: seatNumber
             })
         });
 
