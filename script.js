@@ -18,7 +18,7 @@ async function login() {
 
     try {
         // ✅ Render에 배포된 프록시 서버 주소 사용!
-        let response = await fetch("https://login-proxy-server.onrender.com/api/login", {
+        let response = await fetch("https://login-proxy-server-production.up.railway.app/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=UTF-8" },
             body: JSON.stringify({
@@ -314,7 +314,7 @@ async function findAndReserveSeat() {
 
 async function confirmSeat(reservationId, seatId) {
     try {
-        let response = await fetch("https://login-proxy-server.onrender.com/api/confirm-seat", {
+        let response = await fetch("https://login-proxy-server-production.up.railway.app/api/confirm-seat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -393,7 +393,7 @@ async function renewSeat() {
     }
 
     try {
-        let response = await fetch("https://login-proxy-server.onrender.com/api/renew-seat", {
+        let response = await fetch("https://login-proxy-server-production.up.railway.app/api/renew-seat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
