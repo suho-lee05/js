@@ -17,6 +17,41 @@
             width: 90%;
             max-width: 400px;
             margin: auto;
+            
+            .seat-row {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .seat-tag {
+                flex: 1;
+                max-width: 160px;
+                margin: 5px;
+                padding: 10px;
+                border-radius: 12px;
+                font-weight: bold;
+                text-align: center;
+                cursor: pointer;
+                transition: background 0.3s;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .seat-tag.soon {
+                background-color: #fff3cd;
+                color: #856404;
+            }
+
+            .seat-tag.now {
+                background-color: #d4edda;
+                color: #155724;
+            }
+
+            .seat-tag:hover {
+                opacity: 0.85;
+            }
+
+            
         }
 
         /* 카드형 스타일 */
