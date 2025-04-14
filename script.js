@@ -290,7 +290,24 @@ async function findAndReserveSeat() {
 
             let targetSeat = availableSeats[0];
             document.getElementById("status").innerText = `🎯 빈자리 발견! 좌석 ${targetSeat.id} 예약 시도...`;
-            await reserveSpecificSeat(targetSeat);
+            let reserveResponse = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json;charset=UTF-8",
+                    "pyxis-auth-token": USER_TOKEN
+                },
+                body: JSON.stringify({ seatId: targetSeat.id, smufMethodCode: "MOBILE" })
+            });
+
+            let reserveData = await reserveResponse.json();
+
+            if (reserveData.success) {
+                myReservationId = reserveData.data.id;
+                document.getElementById("status").innerText = `✅ 좌석 ${targetSeat.id} 예약 성공! 배석 확정 중...`;
+
+                await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
+                break;
+            }
             
         } catch (error) {
             document.getElementById("status").innerText = "❌ 오류 발생!";
