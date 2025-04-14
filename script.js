@@ -555,12 +555,12 @@ async function fetchSoonToBeAvailableSeats() {
     container.innerText = "🔄 불러오는 중...";
 
     const ROOM_IDS = [101, 102];
-    let now = new Date();
-    let soonSeats = [];
+    let availableSoon = [];
+    let availableNow = [];
 
     try {
         await Promise.all(ROOM_IDS.map(async (ROOM_ID) => {
-            let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/rooms/${ROOM_ID}/seats`, {
+            const response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/rooms/${ROOM_ID}/seats`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json;charset=UTF-8",
@@ -568,21 +568,21 @@ async function fetchSoonToBeAvailableSeats() {
                 }
             });
 
-            let data = await response.json();
+            const data = await response.json();
             if (data.success && data.data.list) {
                 data.data.list.forEach(seat => {
                     if (!seat.isOccupied) {
-                        // ✅ 현재 비어 있는 좌석
-                        soonSeats.push({
+                        availableNow.push({
                             room: ROOM_ID,
                             code: seat.code,
-                            remainingTime: 0  // 비어 있으니 0분으로 표시
+                            id: seat.id,
+                            remainingTime: 0
                         });
                     } else if (seat.remainingTime <= 10 && seat.remainingTime > 0) {
-                        // ✅ 곧 비는 좌석
-                        soonSeats.push({
+                        availableSoon.push({
                             room: ROOM_ID,
                             code: seat.code,
+                            id: seat.id,
                             remainingTime: seat.remainingTime
                         });
                     }
@@ -590,25 +590,38 @@ async function fetchSoonToBeAvailableSeats() {
             }
         }));
 
-        if (soonSeats.length === 0) {
-            container.innerText = "✅ 곧 비는 좌석 없음!";
+        const combined = [...availableSoon, ...availableNow];
+
+        if (combined.length === 0) {
+            container.innerText = "✅ 곧 비는 좌석 또는 이용 가능한 좌석 없음!";
             return;
         }
 
-        container.innerHTML = soonSeats.map(s => `
-            <div class="seat-tag" onclick="reserveSpecificSeat(${s.code})">
-                ${s.code}번 (Room ${s.room})<br>
-                ${s.remainingTime === 0 ? '✅ 현재 이용 가능 (클릭)' : `⏳ ${s.remainingTime}분 남음`}
-            </div>
-        `).join("");
-        
-        
+        container.innerHTML = combined.reduce((html, seat, index) => {
+            const isNow = seat.remainingTime === 0;
+            const tag = `
+                <div class="seat-tag ${isNow ? 'now' : 'soon'}"
+                     ${isNow ? `onclick="reserveSpecificSeat(${seat.id}, ${seat.code})"` : ""}>
+                    ${seat.code}번 (Room ${seat.room})<br>
+                    ${isNow ? '✅이용 가능(클릭)' : `⏳ ${seat.remainingTime}분 남음`}
+                </div>
+            `;
+
+            if (index % 2 === 0) {
+                html += `<div class="seat-row">${tag}`;
+            } else {
+                html += `${tag}</div>`;
+            }
+
+            return html;
+        }, "");
 
     } catch (err) {
         console.error("곧 비는 좌석 정보 오류:", err);
         container.innerText = "❌ 데이터 불러오기 실패!";
     }
 }
+
 
 
 // 
