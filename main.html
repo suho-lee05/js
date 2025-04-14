@@ -125,10 +125,11 @@
         </div>
 
         <div class="card">
-            <button class="btn btn-danger" onclick="logout()">🚪 로그아웃</button>
-            <p id="status"></p>
+            <h2>⏰ 곧 비는 좌석</h2>
+            <div id="soonToBeAvailableSeats">🔄 로딩 중...</div>
+            <button class="btn btn-info" onclick="fetchSoonToBeAvailableSeats()">🔄 새로고침</button>
         </div>
-
+        
         <div class="card">
             <h2>🪑 좌석 현황</h2>
             <p>📌 <strong>칸막이석:</strong> <span id="cubicleSeatsStatus">불러오는 중...</span></p>
@@ -137,10 +138,10 @@
         </div>
 
         <div class="card">
-            <h2>⏰ 곧 비는 좌석</h2>
-            <div id="soonToBeAvailableSeats">🔄 로딩 중...</div>
-            <button class="btn btn-info" onclick="fetchSoonToBeAvailableSeats()">🔄 새로고침</button>
+            <button class="btn btn-danger" onclick="logout()">🚪 로그아웃</button>
+            <p id="status"></p>
         </div>
+
         
         
     
