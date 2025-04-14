@@ -284,7 +284,7 @@ async function findAndReserveSeat() {
 
             if (availableSeats.length === 0) {
                 document.getElementById("status").innerText = "🔄 빈자리 없음, 다시 탐색 중...";
-                await new Promise(resolve => setTimeout(resolve, 10000));
+                await new Promise(resolve => setTimeout(resolve, 500));//빈자리탐색 .5초로 바꿈
                 continue;
             }
 
