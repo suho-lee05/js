@@ -567,9 +567,65 @@ function generateQRCode(data) {
     });
 }
 
+async function fetchSoonToBeAvailableSeats() {
+    const container = document.getElementById("soonToBeAvailableSeats");
+    const token = localStorage.getItem("USER_TOKEN");
+
+    if (!token || !container) return;
+
+    container.innerText = "🔄 불러오는 중...";
+
+    const ROOM_IDS = [101, 102];
+    let now = new Date();
+    let soonSeats = [];
+
+    try {
+        await Promise.all(ROOM_IDS.map(async (ROOM_ID) => {
+            let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/rooms/${ROOM_ID}/seats`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json;charset=UTF-8",
+                    "pyxis-auth-token": token
+                }
+            });
+
+            let data = await response.json();
+            if (data.success && data.data.list) {
+                data.data.list.forEach(seat => {
+                    if (seat.isOccupied && seat.remainingTime <= 10 && seat.remainingTime > 0) {
+                        soonSeats.push({
+                            room: ROOM_ID,
+                            code: seat.code,
+                            remainingTime: seat.remainingTime
+                        });
+                    }
+                });
+            }
+        }));
+
+        if (soonSeats.length === 0) {
+            container.innerText = "✅ 곧 비는 좌석 없음!";
+            return;
+        }
+
+        container.innerHTML = soonSeats.map(s => `
+            <div class="seat-tag">
+                ${s.code}번 (Room ${s.room})<br>
+                ⏳ ${s.remainingTime}분 남음
+            </div>
+        `).join("");
+
+    } catch (err) {
+        console.error("곧 비는 좌석 정보 오류:", err);
+        container.innerText = "❌ 데이터 불러오기 실패!";
+    }
+}
+
+
 // 
 document.addEventListener("DOMContentLoaded", function () {
     if (window.location.pathname.includes("myinfo.html")) {
         fetchQRCode();
     }
 });
+

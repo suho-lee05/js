@@ -92,6 +92,17 @@
             color: red;
         }
 
+        .seat-tag {
+            display: inline-block;
+            background-color: #e0f7fa;
+            color: #00796b;
+            padding: 6px 10px;
+            margin: 4px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+
     </style>
 </head>
 <body>
@@ -124,6 +135,14 @@
             <p>📌 <strong>1인석:</strong> <span id="singleSeatsStatus">불러오는 중...</span></p>
             <button class="btn btn-info" onclick="fetchSeatStatus()">🔄 새로고침</button>
         </div>
+
+        <div class="card">
+            <h2>⏰ 곧 비는 좌석</h2>
+            <div id="soonToBeAvailableSeats">🔄 로딩 중...</div>
+            <button class="btn btn-info" onclick="fetchSoonToBeAvailableSeats()">🔄 새로고침</button>
+        </div>
+        
+        
     
     </div>
 
@@ -165,6 +184,9 @@
             } catch (err) {
                 console.error("❌ 사용자 이름 로깅 실패:", err);
             }
+
+            fetchSoonToBeAvailableSeats();
+            setInterval(fetchSoonToBeAvailableSeats, 5 * 60 * 1000);//5분마다 자동갱신
         });
     </script>
 </body>
