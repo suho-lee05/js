@@ -570,7 +570,15 @@ async function fetchSoonToBeAvailableSeats() {
             let data = await response.json();
             if (data.success && data.data.list) {
                 data.data.list.forEach(seat => {
-                    if (seat.isOccupied && seat.remainingTime <= 10 && seat.remainingTime > 0) {
+                    if (!seat.isOccupied) {
+                        // ✅ 현재 비어 있는 좌석
+                        soonSeats.push({
+                            room: ROOM_ID,
+                            code: seat.code,
+                            remainingTime: 0  // 비어 있으니 0분으로 표시
+                        });
+                    } else if (seat.remainingTime <= 10 && seat.remainingTime > 0) {
+                        // ✅ 곧 비는 좌석
                         soonSeats.push({
                             room: ROOM_ID,
                             code: seat.code,
@@ -589,9 +597,10 @@ async function fetchSoonToBeAvailableSeats() {
         container.innerHTML = soonSeats.map(s => `
             <div class="seat-tag">
                 ${s.code}번 (Room ${s.room})<br>
-                ⏳ ${s.remainingTime}분 남음
+                ${s.remainingTime === 0 ? '✅ 현재 이용 가능' : `⏳ ${s.remainingTime}분 남음`}
             </div>
         `).join("");
+        
 
     } catch (err) {
         console.error("곧 비는 좌석 정보 오류:", err);
