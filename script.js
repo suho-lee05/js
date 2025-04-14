@@ -291,7 +291,7 @@ async function findAndReserveSeat() {
             let targetSeat = availableSeats[0];
             document.getElementById("status").innerText = `🎯 빈자리 발견! 좌석 ${targetSeat.id} 예약 시도...`;
 
-            await reserveSpecificSeat(targetSeat);
+            await reserveSpecificSeat(targetSeat.id);
             
         } catch (error) {
             document.getElementById("status").innerText = "❌ 오류 발생!";
@@ -316,6 +316,7 @@ async function confirmSeat(reservationId, seatId) {
         let data = await response.json();
 
         if (data.success) {
+            alert(`✅ 좌석 ${reservationId} 배석 확정 완료!`);
             document.getElementById("status").innerText = `✅ 좌석 ${reservationId} 배석 확정 완료!`;
         } else {
             document.getElementById("status").innerText = `❌ 배석 확정 실패: ${data.message}`;
