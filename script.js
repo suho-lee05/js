@@ -596,11 +596,12 @@ async function fetchSoonToBeAvailableSeats() {
         }
 
         container.innerHTML = soonSeats.map(s => `
-            <div class="seat-tag">
+            <div class="seat-tag" onclick="reserveAndConfirm(${s.code})">
                 ${s.code}번 (Room ${s.room})<br>
-                ${s.remainingTime === 0 ? '✅ 현재 이용 가능' : `⏳ ${s.remainingTime}분 남음`}
+                ${s.remainingTime === 0 ? '✅ 현재 이용 가능 (클릭)' : `⏳ ${s.remainingTime}분 남음`}
             </div>
         `).join("");
+        
         
 
     } catch (err) {
