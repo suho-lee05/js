@@ -1,7 +1,7 @@
 console.log("📌 favorites.js 로드됨!");
 
 // ✅ 고정된 즐겨찾기 좌석 리스트
-const favoriteSeats = [376, 377, 378, 379, 380, 381, 382, 383, 384]; // 🎯 원하는 좌석을 여기에 설정
+const favoriteSeats = [326, 327, 344, 345, 383, 368]; // 🎯 원하는 좌석을 여기에 설정
 
 // ✅ 즐겨찾기 좌석 UI 생성
 function showFavoriteSeats() {
@@ -35,8 +35,6 @@ function showFavoriteSeats() {
 // ✅ 특정 좌석 예약
 async function reserveFavoriteSeat(seatId) {
     console.log(`🎯 좌석 ${seatId} 예약 시도 중...`);
-
-    //alert(`🎯 좌석 ${seatId} 예약을 시도합니다.`); // ✅ 예약 시작 알림
 
     try {
         let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
