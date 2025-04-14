@@ -64,7 +64,7 @@ function showFavoriteSeats() {
 const woong_1 = [326, 327, 344, 345];
 const woong_3 = [260, 261, 242, 243];
 
-function Woong(){
+async function Woong(){
     console.log("📌 showFavoriteSeats() 실행됨!");
 
     let container = document.getElementById("Woong_1");
