@@ -143,7 +143,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <h2>🎯 좌석 예약</h2>
+            <h2>📚 도서관 좌석 예약</h2>
             <button class="btn btn-primary" onclick="startSeatNinja(1)">1열람실 특정 좌석 배석</button>
             <button class="btn btn-primary" onclick="startSeatNinja(2)">2열람실 특정 좌석 배석</button>
             <button class="btn btn-primary" onclick="startSeatNinja(3)">3열람실 특정 좌석 배석</button>
@@ -234,7 +234,7 @@
             }
 
             fetchSoonToBeAvailableSeats();
-            setInterval(fetchSoonToBeAvailableSeats, 5 * 60 * 1000);//5분마다 자동갱신
+            setInterval(fetchSoonToBeAvailableSeats, 7000);//5분마다 자동갱신
         });
 
         function showSeatMap(zone) {

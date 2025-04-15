@@ -581,7 +581,7 @@ async function fetchSoonToBeAvailableSeats() {
                                 id: seat.id,
                                 remainingTime: 0
                             });
-                        } else if (seat.remainingTime <= 10 && seat.remainingTime > 0) {
+                        } else if (seat.remainingTime <= 10 && seat.remainingTime >= 0) {
                             availableSoon.push({
                                 room: ROOM_ID,
                                 code: seat.code,
