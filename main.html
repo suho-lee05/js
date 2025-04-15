@@ -170,6 +170,14 @@
             <p>📌 <strong>칸막이석:</strong> <span id="cubicleSeatsStatus">불러오는 중...</span></p>
             <p>📌 <strong>1인석:</strong> <span id="singleSeatsStatus">불러오는 중...</span></p>
             <button class="btn btn-info" onclick="fetchSeatStatus()">🔄 새로고침</button>
+            <!-- 구역 선택 버튼 -->
+            <div style="margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="showSeatMap('a')">🅰️ A구역 보기</button>
+                <button class="btn btn-secondary" onclick="showSeatMap('b')">🅱️ B구역 보기</button>
+            </div>
+
+            <!-- 좌석도 이미지가 표시될 영역 -->
+            <div id="seatMapContainer" style="margin-top: 15px;"></div>
         </div>
 
         <div class="card">
@@ -177,8 +185,12 @@
             <p id="status"></p>
         </div>
 
-        
-        
+        <!-- 좌석도 모달 -->
+        <div id="seatModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); text-align:center; padding-top:50px;">
+            <span onclick="closeSeatModal()" style="position:absolute; top:20px; right:30px; color:white; font-size:30px; cursor:pointer;">&times;</span>
+            <img id="seatModalImage" src="" alt="좌석도 확대" style="max-width:95%; max-height:90%; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        </div>
+                
     
     </div>
 
@@ -224,6 +236,37 @@
             fetchSoonToBeAvailableSeats();
             setInterval(fetchSoonToBeAvailableSeats, 5 * 60 * 1000);//5분마다 자동갱신
         });
+
+        function showSeatMap(zone) {
+            const container = document.getElementById("seatMapContainer");
+            let imagePath = "";
+            let altText = "";
+
+            if (zone === "a") {
+                imagePath = "/img/1열람실A구역좌석도.png";
+                altText = "1열람실 A구역 좌석도";
+            } else if (zone === "b") {
+                imagePath = "/img/1열람실B구역좌석도.png";
+                altText = "1열람실 B구역 좌석도";
+            }
+
+            container.innerHTML = `
+                <img src="${imagePath}" alt="${altText}" style="width: 100%; max-width: 800px; border-radius: 12px; cursor: zoom-in;" onclick="openSeatModal('${imagePath}')">
+            `;
+        }
+
+
+        function openSeatModal(imageSrc) {
+            const modal = document.getElementById("seatModal");
+            const modalImage = document.getElementById("seatModalImage");
+            modal.style.display = "block";
+            modalImage.src = imageSrc;
+        }
+
+        function closeSeatModal() {
+            document.getElementById("seatModal").style.display = "none";
+        }
+
     </script>
 </body>
 </html>
