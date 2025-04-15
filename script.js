@@ -571,20 +571,24 @@ async function fetchSoonToBeAvailableSeats() {
             const data = await response.json();
             if (data.success && data.data.list) {
                 data.data.list.forEach(seat => {
-                    if (!seat.isOccupied) {
-                        availableNow.push({
-                            room: ROOM_ID,
-                            code: seat.code,
-                            id: seat.id,
-                            remainingTime: 0
-                        });
-                    } else if (seat.remainingTime <= 10 && seat.remainingTime > 0) {
-                        availableSoon.push({
-                            room: ROOM_ID,
-                            code: seat.code,
-                            id: seat.id,
-                            remainingTime: seat.remainingTime
-                        });
+                    const seatCode = Number(seat.code);
+                    // 1 ~ 408번 필터
+                    if (seatCode >= 1 && seatCode <= 408) {
+                        if (!seat.isOccupied) {
+                            availableNow.push({
+                                room: ROOM_ID,
+                                code: seat.code,
+                                id: seat.id,
+                                remainingTime: 0
+                            });
+                        } else if (seat.remainingTime <= 10 && seat.remainingTime > 0) {
+                            availableSoon.push({
+                                room: ROOM_ID,
+                                code: seat.code,
+                                id: seat.id,
+                                remainingTime: seat.remainingTime
+                            });
+                        }
                     }
                 });
             }
@@ -621,7 +625,6 @@ async function fetchSoonToBeAvailableSeats() {
         container.innerText = "❌ 데이터 불러오기 실패!";
     }
 }
-
 
 
 // 
