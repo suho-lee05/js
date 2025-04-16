@@ -61,7 +61,7 @@ function showFavoriteSeats() {
 //웅대 버전
 //new 웅대
 
-const woong_1 = [326, 327, 344, 345];
+const woong_1 = [326, 327, 344, 345, 374, 375];
 const woong_3 = [260, 261, 242, 243];
 
 async function Woong(){
