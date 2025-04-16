@@ -578,23 +578,31 @@ async function fetchSoonToBeAvailableSeats() {
 
             const data = await response.json();
             if (data.success && data.data.list) {
-                data.data.list.forEach(seat => {
+                const seats = data.data.list;
+                // ✅ 칸막이석 필터링: 24~131번
+                const cubicleSeatCodes = seats
+                    .filter(s => s.code >= 24 && s.code <= 131)
+                    .map(s => Number(s.code));
+
+                seats.forEach(seat => {
                     const seatCode = Number(seat.code);
-                    // 1 ~ 408번 필터
                     if (seatCode >= 1 && seatCode <= 408) {
+                        const isCubicle = cubicleSeatCodes.includes(seatCode);
                         if (!seat.isOccupied) {
                             availableNow.push({
                                 room: ROOM_ID,
                                 code: seat.code,
                                 id: seat.id,
-                                remainingTime: 0
+                                remainingTime: 0,
+                                isCubicle: isCubicle
                             });
                         } else if (seat.remainingTime <= 10 && seat.remainingTime >= 0) {
                             availableSoon.push({
                                 room: ROOM_ID,
                                 code: seat.code,
                                 id: seat.id,
-                                remainingTime: seat.remainingTime
+                                remainingTime: seat.remainingTime,
+                                isCubicle: isCubicle
                             });
                         }
                     }
@@ -611,10 +619,11 @@ async function fetchSoonToBeAvailableSeats() {
 
         container.innerHTML = combined.reduce((html, seat, index) => {
             const isNow = seat.remainingTime === 0;
+            const cubicleTag = seat.isCubicle ? ' 🪑칸막이석' : '';
             const tag = `
                 <div class="seat-tag ${isNow ? 'now' : 'soon'}"
                      ${isNow ? `onclick="reserveSpecificSeat(${seat.id}, ${seat.code})"` : ""}>
-                    ${seat.code}번 (Room ${seat.room})<br>
+                    ${seat.code}번 (Room ${seat.room})${cubicleTag}<br>
                     ${isNow ? '✅이용 가능(클릭)' : `⏳ ${seat.remainingTime}분 남음`}
                 </div>
             `;
