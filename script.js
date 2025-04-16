@@ -267,8 +267,10 @@ async function reserveSpecificSeat_3(seatId) {
 
 
 async function findAndReserveSeat() {
+    stopFlag = false;
     while (!stopFlag) {
         document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
+        //alert("🔄무한 루프 시작(취소하려면 예약중지 버튼을 눌러주세요)");
 
         try {
             let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/rooms/${ROOM_ID}/seats`, {
@@ -284,7 +286,7 @@ async function findAndReserveSeat() {
 
             if (availableSeats.length === 0) {
                 document.getElementById("status").innerText = "🔄 빈자리 없음, 다시 탐색 중...";
-                await new Promise(resolve => setTimeout(resolve, 300));//빈자리탐색 .5초로 바꿈
+                await new Promise(resolve => setTimeout(resolve, 200));//빈자리탐색 .5초로 바꿈
                 continue;
             }
 
@@ -299,6 +301,13 @@ async function findAndReserveSeat() {
 
         await new Promise(resolve => setTimeout(resolve, 10000));
     }
+}
+
+// ✅ 5. 실행 중지 기능
+function stopLoop() {
+    stopFlag = true;
+    alert("무한 루프 버튼을 다시 눌러 탐색을 활성화 시키세요.")
+    document.getElementById("status").innerText = "🚫 무한루프 탐색 중지.";
 }
 
 async function confirmSeat(reservationId, seatId) {
@@ -318,11 +327,14 @@ async function confirmSeat(reservationId, seatId) {
         if (data.success) {
             alert(`✅ 좌석 ${reservationId} 배석 확정 완료!`);
             document.getElementById("status").innerText = `✅ 좌석 ${reservationId} 배석 확정 완료!`;
+            stopFlag = true;
         } else {
             document.getElementById("status").innerText = `❌ 배석 확정 실패: ${data.message}`;
+            stopFlag = true;
         }
     } catch (error) {
         document.getElementById("status").innerText = "❌ 배석 확정 오류 발생!";
+        stopFlag = true;
     }
 }
 
@@ -477,11 +489,7 @@ function goToFavorites() {
 
 
 
-// ✅ 5. 실행 중지 기능
-function stopLoop() {
-    stopFlag = true;
-    document.getElementById("status").innerText = "🛑 예약 중지됨.";
-}
+
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
