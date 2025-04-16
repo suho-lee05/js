@@ -226,11 +226,20 @@
 
             <button class="btn btn-primary" onclick="startSeatNinja()">⭐ 무한 루프 빈자리 예약</button>
             <button class="btn btn-secondary" onclick="stopLoop()">예약 중지</button>
+            
         </div>
 
         <div class="card">
             <h2>👤 내 정보</h2>
             <button class="btn btn-info" onclick="goToMyInfo()">내 정보 보기</button>
+            <!-- 구역 선택 버튼 -->
+            <div>
+                <button class="btn btn-secondary" onclick="showSeatMap('a')">🅰️ A구역 보기</button>
+                <button class="btn btn-secondary" onclick="showSeatMap('b')">🅱️ B구역 보기</button>
+            </div>
+
+            <!-- 좌석도 이미지가 표시될 영역 -->
+            <div id="seatMapContainer" style="margin-top: 15px;"></div>
         </div>
 
         <div class="card">
@@ -244,14 +253,7 @@
             <p>📌 <strong>칸막이석:</strong> <span id="cubicleSeatsStatus">불러오는 중...</span></p>
             <p>📌 <strong>1인석:</strong> <span id="singleSeatsStatus">불러오는 중...</span></p>
             <button class="btn btn-info" onclick="fetchSeatStatus()">🔄 새로고침</button>
-            <!-- 구역 선택 버튼 -->
-            <div style="margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="showSeatMap('a')">🅰️ A구역 보기</button>
-                <button class="btn btn-secondary" onclick="showSeatMap('b')">🅱️ B구역 보기</button>
-            </div>
-
-            <!-- 좌석도 이미지가 표시될 영역 -->
-            <div id="seatMapContainer" style="margin-top: 15px;"></div>
+            
         </div>
 
         <div class="card">
