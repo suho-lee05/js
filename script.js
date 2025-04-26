@@ -58,14 +58,51 @@ function logout() {
 
 
 
-function goToMyInfo() {
-    window.location.href = "myinfo.html";
+//집 데스크탑 pull
+async function startSeatNinja(mode) {
+    USER_TOKEN = localStorage.getItem("USER_TOKEN");
+
+    if (!USER_TOKEN) {
+        document.getElementById("status").innerText = "❌ 로그인 정보 없음. 로그인 페이지로 이동합니다.";
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 2000);
+        return;
+    }
+
+    if (mode === 1) {
+        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
+        if (!seatNumber) {
+            alert("❌ 좌석 번호를 입력해야 합니다!");
+            return;
+        }
+        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
+        await reserveSpecificSeat(seatNumber);
+    }else if(mode === 2){
+        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
+        if (!seatNumber) {
+            alert("❌ 좌석 번호를 입력해야 합니다!");
+            return;
+        }
+        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
+        await reserveSpecificSeat_2(seatNumber);
+    }else if(mode === 3){
+        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
+        if (!seatNumber) {
+            alert("❌ 좌석 번호를 입력해야 합니다!");
+            return;
+        }
+        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
+        await reserveSpecificSeat_3(seatNumber);
+    }
+    else {
+        document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
+        await findAndReserveSeat();
+    }
 }
 
-// 
-function goBack() {
-    window.location.href = "main.html";
-}
+
+
 
 // 
 async function getUserInfo() {
@@ -79,12 +116,12 @@ async function getUserInfo() {
     }
 
     try {
-        let response = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
-            method: "GET",
+        let response = await fetch("https://login-proxy-server-production.up.railway.app/api/my-seat", {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "pyxis-auth-token": USER_TOKEN
-            }
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token: USER_TOKEN })
         });
 
         let data = await response.json();
@@ -139,50 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-
-//집 데스크탑 pull
-async function startSeatNinja(mode) {
-    USER_TOKEN = localStorage.getItem("USER_TOKEN");
-
-    if (!USER_TOKEN) {
-        document.getElementById("status").innerText = "❌ 로그인 정보 없음. 로그인 페이지로 이동합니다.";
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 2000);
-        return;
-    }
-
-    if (mode === 1) {
-        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
-        if (!seatNumber) {
-            alert("❌ 좌석 번호를 입력해야 합니다!");
-            return;
-        }
-        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
-        await reserveSpecificSeat(seatNumber);
-    }else if(mode === 2){
-        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
-        if (!seatNumber) {
-            alert("❌ 좌석 번호를 입력해야 합니다!");
-            return;
-        }
-        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
-        await reserveSpecificSeat_2(seatNumber);
-    }else if(mode === 3){
-        seatNumber = prompt("🎯 예약할 좌석 번호 입력:");
-        if (!seatNumber) {
-            alert("❌ 좌석 번호를 입력해야 합니다!");
-            return;
-        }
-        document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
-        await reserveSpecificSeat_3(seatNumber);
-    }
-    else {
-        document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
-        await findAndReserveSeat();
-    }
-}
 
 // 
 async function reserveSpecificSeat(seatId) {
@@ -488,9 +481,6 @@ function goToFavorites() {
 }
 
 
-
-
-
 // 
 document.addEventListener("DOMContentLoaded", function () {
     if (window.location.pathname.includes("index.html")) {
@@ -641,6 +631,15 @@ async function fetchSoonToBeAvailableSeats() {
         console.error("곧 비는 좌석 정보 오류:", err);
         container.innerText = "❌ 데이터 불러오기 실패!";
     }
+}
+
+function goToMyInfo() {
+    window.location.href = "myinfo.html";
+}
+
+// 
+function goBack() {
+    window.location.href = "main.html";
 }
 
 
