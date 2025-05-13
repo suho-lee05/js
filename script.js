@@ -198,9 +198,11 @@ async function reserveSpecificSeat(seatId) {
             await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
+            alert(`❌ 예약 실패: ${reserveData.message}`);
         }
     } catch (error) {
         document.getElementById("status").innerText = "❌ 예약 오류 발생!";
+        alert(`❌ 예약 실패: ${reserveData.message}`);
     }
 }
 
@@ -226,9 +228,12 @@ async function reserveSpecificSeat_2(seatId) {
             await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
+            alert(`❌ 예약 실패: ${reserveData.message}`);
         }
     } catch (error) {
         document.getElementById("status").innerText = "❌ 예약 오류 발생!";
+        alert(`❌ 예약 실패: ${reserveData.message}`);
+        
     }
 }
 
@@ -252,9 +257,11 @@ async function reserveSpecificSeat_3(seatId) {
             await confirmSeat(myReservationId, seatId); // ✅ 배석 확정 실행
         } else {
             document.getElementById("status").innerText = `❌ 예약 실패: ${reserveData.message}`;
+            alert(`❌ 예약 실패: ${reserveData.message}`);
         }
     } catch (error) {
         document.getElementById("status").innerText = "❌ 예약 오류 발생!";
+        alert(`❌ 예약 실패: ${reserveData.message}`);
     }
 }
 
@@ -322,6 +329,7 @@ async function confirmSeat(reservationId, seatId) {
             document.getElementById("status").innerText = `✅ 좌석 ${reservationId} 배석 확정 완료!`;
             stopFlag = true;
         } else {
+            alert(`❌ 배석 확정 실패: ${data.message}`);
             document.getElementById("status").innerText = `❌ 배석 확정 실패: ${data.message}`;
             stopFlag = true;
         }
