@@ -325,8 +325,8 @@ async function confirmSeat(reservationId, seatId) {
         let data = await response.json();
 
         if (data.success) {
-            alert(`✅ 좌석 ${reservationId} 배석 확정 완료!`);
-            document.getElementById("status").innerText = `✅ 좌석 ${reservationId} 배석 확정 완료!`;
+            alert(`✅ 좌석 ${seatId} 배석 확정 완료!`);
+            document.getElementById("status").innerText = `✅ 좌석 ${seatId} 배석 확정 완료!`;
             stopFlag = true;
         } else {
             alert(`❌ 배석 확정 실패: ${data.message}`);
