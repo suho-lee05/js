@@ -480,7 +480,9 @@ async function fetchSeatStatus() {
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchSeatStatus();
+     if (document.getElementById("cubicleSeatsStatus") && document.getElementById("singleSeatsStatus")) {
+        fetchSeatStatus();
+    }
 });
 
 // 
@@ -490,17 +492,17 @@ function goToFavorites() {
 
 
 // 
-document.addEventListener("DOMContentLoaded", function () {
-    if (window.location.pathname.includes("index.html")) {
-        USER_TOKEN = localStorage.getItem("USER_TOKEN");
-        if (!USER_TOKEN) {
-            document.getElementById("status").innerText = "❌ 로그인 정보 없음. 로그인 페이지로 이동합니다.";
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 2000);
-        }
-    }
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     if (window.location.pathname.includes("index.html")) {
+//         USER_TOKEN = localStorage.getItem("USER_TOKEN");
+//         if (!USER_TOKEN) {
+//             document.getElementById("status").innerText = "❌ 로그인 정보 없음. 로그인 페이지로 이동합니다.";
+//             setTimeout(() => {
+//                 window.location.href = "index.html";
+//             }, 2000);
+//         }
+//     }
+// });
 
 
 // 
