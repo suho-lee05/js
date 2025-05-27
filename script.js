@@ -124,12 +124,17 @@ async function getUserInfo() {
     }
 
     try {
+        let userId = localStorage.getItem("USER_ID"); // ✅ 사용자 ID 가져오기
+
         let response = await fetch("https://login-proxy-server-production.up.railway.app/api/my-seat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ token: USER_TOKEN })
+            body: JSON.stringify({ 
+                token: USER_TOKEN,
+                loginId: userId //사용자 ID 백엔드로 전달 
+            })
         });
 
         let data = await response.json();
