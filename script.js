@@ -405,7 +405,7 @@ async function renewSeat() {
         document.getElementById("renewStatus").innerText = "❌ 연장할 좌석 예약이 없습니다.";
         return;
     }
-
+    let userId = localStorage.getItem("USER_ID"); // ✅ 사용자 ID 가져오기
     try {
         let response = await fetch("https://login-proxy-server-production.up.railway.app/api/renew-seat", {
             method: "POST",
@@ -415,7 +415,8 @@ async function renewSeat() {
             body: JSON.stringify({
                 token: USER_TOKEN,
                 reservationId: myReservationId,
-                seatId: seatNumber
+                seatId: seatNumber,
+                loginId: userId //사용자 ID 백엔드로 전달
             })
         });
 
