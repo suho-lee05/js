@@ -320,13 +320,16 @@ function stopLoop() {
 
 async function confirmSeat(reservationId, seatId) {
     try {
+        let userId = localStorage.getItem("USER_ID"); // ✅ 사용자 ID 가져오기
+
         let response = await fetch("https://login-proxy-server-production.up.railway.app/api/confirm-seat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 token: USER_TOKEN,
                 reservationId: reservationId,
-                seatId: seatId
+                seatId: seatId,
+                loginId: userId //사용자 ID 백엔드로 전달
             })
         });
 
