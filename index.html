@@ -109,6 +109,11 @@
     </style>
 </head>
 <body>
+    <div id="notice" style="margin-bottom: 20px;">
+        <h3>🎉 지금까지 <strong>Seat Ninja</strong>를 이용해주셔서 감사합니다!</h3>
+        <p>⏳ Seat Ninja는 <strong>2025년 6월 3일</strong> 사망 예정입니다.</p>
+        <p>⏱️ 서비스 종료까지 남은 시간: <span id="countdown"></span></p>
+    </div>
     <div class="login-container">
         <h2>🔑 Seat Ninja 로그인</h2>
         
@@ -129,5 +134,29 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        function updateCountdown() {
+            const endDate = new Date("2025-06-03T00:00:00"); // 종료 시점
+            const now = new Date();
+            const diff = endDate - now;
+
+            if (diff <= 0) {
+                document.getElementById("countdown").innerText = "서비스가 종료되었습니다.";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById("countdown").innerText =
+                `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+        }
+
+        setInterval(updateCountdown, 1000); // 1초마다 갱신
+        updateCountdown(); // 초기 호출
+    </script>
+
 </body>
 </html>
