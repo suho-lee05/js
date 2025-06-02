@@ -166,6 +166,12 @@ async function getUserInfo() {
                 document.getElementById("renewTime").innerText = "연장 불가";
             }
 
+            if (typeof reservation.renewalLimit !== "undefined" && typeof reservation.renewableCnt !== "undefined") {
+                document.getElementById("renewalCount").innerText = `${reservation.renewableCnt}회 / 총 ${reservation.renewalLimit}회`;
+            } else {
+                document.getElementById("renewalCount").innerText = "정보 없음";
+            }
+
         } else {
             document.getElementById("userSeat").innerText = "예약 없음";
             document.getElementById("remainingTime").innerText = "-";
