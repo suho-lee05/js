@@ -495,6 +495,51 @@ async function fetchSeatStatus() {
     }
 }
 
+async function magicRebook() {
+    if (!myReservationId || !seatNumber) {
+        alert("❌ 현재 배석 정보가 없습니다.");
+        return;
+    }
+
+    const originalSeatId = seatNumber;
+    document.getElementById("status").innerText = `🪄 마법 시작! 좌석 ${originalSeatId} 해제 중...`;
+
+    try {
+        // 🔴 먼저 배석 해제
+        const cancelResponse = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-discharges", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8",
+                "pyxis-auth-token": USER_TOKEN
+            },
+            body: JSON.stringify({
+                seatCharge: myReservationId,
+                smufMethodCode: "MOBILE"
+            })
+        });
+
+        const cancelData = await cancelResponse.json();
+
+        if (!cancelData.success) {
+            document.getElementById("status").innerText = `❌ 배석 해제 실패: ${cancelData.message}`;
+            return;
+        }
+
+        document.getElementById("status").innerText = `✅ 배석 해제 완료! 좌석 ${originalSeatId} 재예약 시도 중...`;
+
+        // 🕐 아주 잠깐 대기 (API 안정성 위해)
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // 🟢 다시 예약 시도
+        await reserveSpecificSeat(originalSeatId);
+
+    } catch (err) {
+        console.error("마법 버튼 오류:", err);
+        document.getElementById("status").innerText = "❌ 마법 버튼 실행 중 오류 발생!";
+    }
+}
+
+
 // 
 document.addEventListener("DOMContentLoaded", function () {
      if (document.getElementById("cubicleSeatsStatus") && document.getElementById("singleSeatsStatus")) {
