@@ -532,7 +532,7 @@ async function magicRebook() {
 
         // 🟢 다시 예약 시도
         await reserveSpecificSeat(originalSeatId);
-
+        getUserInfo(); // 다시 정보 불러오기
     } catch (err) {
         console.error("마법 버튼 오류:", err);
         document.getElementById("status").innerText = "❌ 마법 버튼 실행 중 오류 발생!";
