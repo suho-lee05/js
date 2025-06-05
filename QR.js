@@ -22,11 +22,11 @@ async function fetchQRCode() {
         });
 
         let data = await response.json();
-        console.log("API 응답 데이터:", data); // 🔍 디버깅용 로그
+        
 
         if (response.ok && data.success) {
             let qrData = data.data.membershipCard; // ✅ QR 코드로 사용할 값
-            console.log("QR Code Data:", qrData); // 🔍 QR 코드 데이터 확인
+            
 
             document.getElementById("qrStatus").innerText = "✅ QR 코드 로드 완료";
             generateQRCode(qrData);

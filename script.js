@@ -144,8 +144,7 @@ async function getUserInfo() {
             myReservationId = reservation.id;  // ✅ 배석 해제용 ID 저장
             seatNumber = reservation.seat.id;  // ✅ 실제 API에 사용되는 seatId (숫자)
 
-            console.log("예약 ID:", myReservationId);  // 🔍 디버깅용 콘솔 출력
-            console.log("예약 좌석 번호 : ",seatNumber);
+            
             
             document.getElementById("userSeat").innerText = `좌석 ${reservation.seat.code} (${reservation.room.name})`;
 
@@ -595,11 +594,11 @@ async function fetchQRCode() {
         });
 
         let data = await response.json();
-        console.log("API 응답 데이터:", data);
+        
 
         if (response.ok && data.success) {
             let qrData = data.data.membershipCard;
-            console.log("QR Code Data:", qrData);
+            
 
             document.getElementById("qrStatus").innerText = "";
             generateQRCode(qrData);
