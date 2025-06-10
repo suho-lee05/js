@@ -45,7 +45,7 @@ async function login() {
         }
     } catch (error) {
         //document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
-        console.error("로그인 오류:", error);
+        //console.error("로그인 오류:", error);
     }
 }
 //
