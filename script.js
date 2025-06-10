@@ -41,10 +41,10 @@ async function login() {
                 window.location.href = "main.html";
             }, 1000);
         } else {
-            document.getElementById("status").innerText = "❌ 로그인 실패!";
+            //document.getElementById("status").innerText = "❌ 로그인 실패!";
         }
     } catch (error) {
-        document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
+        //document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
         console.error("로그인 오류:", error);
     }
 }
