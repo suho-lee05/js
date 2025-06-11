@@ -102,6 +102,9 @@ async function startSeatNinja(mode) {
         }
         document.getElementById("status").innerText = `🎯 특정 좌석 ${seatNumber} 예약 시도 중...`;
         await reserveSpecificSeat_3(seatNumber);
+    }else if(mode === 4){
+        document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
+        await findAndReserveSeat2();
     }
     else {
         document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
@@ -320,6 +323,44 @@ async function findAndReserveSeat() {
         await new Promise(resolve => setTimeout(resolve, 10000));
     }
 }
+
+async function findAndReserveSeat2() {
+    stopFlag = false;
+    while (!stopFlag) {
+        document.getElementById("status").innerText = "🔄 빈자리 탐색 중...";
+        //alert("🔄무한 루프 시작(취소하려면 예약중지 버튼을 눌러주세요)");
+
+        try {
+            let response = await fetch(`https://library.konkuk.ac.kr/pyxis-api/1/api/rooms/${232}/seats`, {
+                method: "GET",
+                headers: { 
+                    "Content-Type": "application/json;charset=UTF-8",
+                    "pyxis-auth-token": USER_TOKEN
+                }
+            });
+
+            let data = await response.json();
+            let availableSeats = data.data.list.filter(seat => !seat.isOccupied);
+
+            if (availableSeats.length === 0) {
+                document.getElementById("status").innerText = "🔄 빈자리 없음, 다시 탐색 중...";
+                await new Promise(resolve => setTimeout(resolve, 200));//빈자리탐색 .5초로 바꿈
+                continue;
+            }
+
+            let targetSeat = availableSeats[0];
+            document.getElementById("status").innerText = `🎯 빈자리 발견! 좌석 ${targetSeat.id} 예약 시도...`;
+
+            await reserveSpecificSeat(targetSeat.id);
+            
+        } catch (error) {
+            document.getElementById("status").innerText = "❌ 오류 발생!";
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 10000));
+    }
+}
+
 
 // ✅ 5. 실행 중지 기능
 function stopLoop() {
