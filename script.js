@@ -211,7 +211,7 @@ async function reserveSpecificSeat(seatId) {
         });
 
         let reserveData = await response.json();
-
+        
         if (reserveData.success) {
             myReservationId = reserveData.data.id;  // ✅ 예약 ID 저장
             //document.getElementById("status").innerText = `✅ 좌석 ${seatId} 예약 성공! 배석 확정 중...`;
@@ -303,8 +303,8 @@ async function findAndReserveSeat() {
             });
 
             let data = await response.json();
-            let availableSeats = data.data.list.filter(seat => !seat.isOccupied);
-
+            let availableSeats = data.data.list.filter(seat => !seat.isOccupied && seat.isActive);
+            
             if (availableSeats.length === 0) {
                 document.getElementById("status").innerText = "🔄 빈자리 없음, 다시 탐색 중...";
                 await new Promise(resolve => setTimeout(resolve, 200));//빈자리탐색 .5초로 바꿈
@@ -340,7 +340,7 @@ async function findAndReserveSeat2() {
             });
 
             let data = await response.json();
-            let availableSeats = data.data.list.filter(seat => !seat.isOccupied);
+            let availableSeats = data.data.list.filter(seat => !seat.isOccupied && seat.isActive);
 
             if (availableSeats.length === 0) {
                 document.getElementById("status").innerText = "🔄 빈자리 없음, 다시 탐색 중...";
@@ -694,7 +694,7 @@ async function fetchSoonToBeAvailableSeats() {
 
                 seats.forEach(seat => {
                     const seatCode = Number(seat.code);
-                    if (seatCode >= 1 && seatCode <= 408) {
+                    if (seatCode >= 1 && seatCode <= 408 && seat.isActive) {
                         const isCubicle = cubicleSeatCodes.includes(seatCode);
                         if (!seat.isOccupied) {
                             availableNow.push({
