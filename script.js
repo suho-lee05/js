@@ -7,20 +7,69 @@ let stopFlag = false;
 let myReservationId = null;  // 예약된 좌석 ID 저장
 let seatNumber = null;
 
-async function login() {
-    USER_ID = document.getElementById("userId").value;
-    USER_PW = document.getElementById("userPw").value;
+// async function login() {
+//     USER_ID = document.getElementById("userId").value;
+//     USER_PW = document.getElementById("userPw").value;
 
     
 
+//     if (!USER_ID || !USER_PW) {
+//         document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
+//         return;
+//     }
+
+//     try {
+//         // ✅ Render에 배포된 프록시 서버 주소 사용!
+//         let response = await fetch("https://login-proxy-server-production.up.railway.app/api/login", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json;charset=UTF-8" },
+//             body: JSON.stringify({
+//                 loginId: USER_ID,
+//                 password: USER_PW
+//             })
+//         });
+
+//         let loginData = await response.json();
+
+//         if (loginData.success) {
+//             USER_TOKEN = loginData.data.accessToken;
+//             localStorage.setItem("USER_TOKEN", USER_TOKEN);
+//             localStorage.setItem("USER_ID", USER_ID); // 사용자 ID 저장 (main.html 로그용)
+            
+//             document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
+//             setTimeout(() => {
+//                 window.location.href = "main.html";
+//             }, 1000);
+//         } else {
+//             //document.getElementById("status").innerText = "❌ 로그인 실패!";
+//         }
+//     } catch (error) {
+//         //document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
+//         //console.error("로그인 오류:", error);
+//     }
+// }
+// //
+
+async function login() {
+    const USER_ID = document.getElementById("userId").value;
+    const USER_PW = document.getElementById("userPw").value;
+    const statusEl = document.getElementById("status");
+
     if (!USER_ID || !USER_PW) {
-        document.getElementById("status").innerText = "❌ 아이디와 비밀번호를 입력하세요!";
+        statusEl.innerText = "❌ 아이디와 비밀번호를 입력하세요!";
         return;
     }
 
+    // 🔥 관리자 진입 여부
+    const isAdminGate = location.pathname === "/forgot-password";
+
+    // 🔀 endpoint 분기
+    const endpoint = isAdminGate
+        ? "https://login-proxy-server-production.up.railway.app/admin/check"
+        : "https://login-proxy-server-production.up.railway.app/api/login";
+
     try {
-        // ✅ Render에 배포된 프록시 서버 주소 사용!
-        let response = await fetch("https://login-proxy-server-production.up.railway.app/api/login", {
+        const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=UTF-8" },
             body: JSON.stringify({
@@ -29,26 +78,36 @@ async function login() {
             })
         });
 
-        let loginData = await response.json();
+        const loginData = await response.json();
 
-        if (loginData.success) {
-            USER_TOKEN = loginData.data.accessToken;
-            localStorage.setItem("USER_TOKEN", USER_TOKEN);
-            localStorage.setItem("USER_ID", USER_ID); // 사용자 ID 저장 (main.html 로그용)
-            
-            document.getElementById("status").innerText = "✅ 로그인 성공! 페이지 이동 중...";
-            setTimeout(() => {
-                window.location.href = "main.html";
-            }, 1000);
-        } else {
-            //document.getElementById("status").innerText = "❌ 로그인 실패!";
+        // ❌ 공통 실패 처리
+        if (!response.ok || !loginData.success) {
+            statusEl.innerText = "❌ 아이디 또는 비밀번호가 올바르지 않습니다.";
+            return;
         }
+
+        // ✅ 관리자 진입
+        if (isAdminGate) {
+            window.location.href = loginData.redirect;
+            return;
+        }
+
+        // ✅ 일반 로그인 (기존 로직)
+        const USER_TOKEN = loginData.data.accessToken;
+        localStorage.setItem("USER_TOKEN", USER_TOKEN);
+        localStorage.setItem("USER_ID", USER_ID);
+
+        statusEl.innerText = "✅ 로그인 성공! 페이지 이동 중...";
+        setTimeout(() => {
+            window.location.href = "main.html";
+        }, 1000);
+
     } catch (error) {
-        //document.getElementById("status").innerText = "❌ 로그인 오류 발생!";
-        //console.error("로그인 오류:", error);
+        statusEl.innerText = "❌ 서버 오류가 발생했습니다.";
+        console.error("로그인 오류:", error);
     }
 }
-//
+
 
 function logout() {
     localStorage.removeItem("USER_ID");
