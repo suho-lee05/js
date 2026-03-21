@@ -4,167 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 - Seat Ninja</title>
-    <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        /* 로그인 박스 */
-        .login-container {
-            background: white;
-            width: 320px;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            margin: auto;
-        }
-
-        /* 입력 필드 스타일 */
-        .input-field {
-            width: 90%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        /* 버튼 스타일 */
-        .login-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        .login-btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* 추가 옵션 스타일 */
-        .options {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .options a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .options a:hover {
-            text-decoration: underline;
-        }
-        
-        .profile-img {
-            width: 200px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1c1c1e;
-                color: #ffffff;
-            }
-
-            .login-container {
-                background-color: #2c2c2e;
-                box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.05);
-            }
-
-            .input-field {
-                background-color: #3a3a3c;
-                color: white;
-                border: 1px solid #555;
-            }
-
-            .login-btn {
-                background-color: #35567a;
-                color: white;
-            }
-
-            .login-btn:hover {
-                background-color: #518bbd;
-            }
-
-            .options a {
-                color: #a0cfff;
-            }
-
-            .options a:hover {
-                color: #ffffff;
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- <div id="notice" style="margin-bottom: 20px;">
-        <h3>🎉 <strong>Seat Ninja</strong>를 이용해주셔서 감사합니다!</h3>
-        <p>📢 현재 학교의 좌석 이용 정책이 변경되었지만,</p>
-        <p>🪄 <strong>마법 버튼</strong>을 사용하면 여전히 <strong>우회가 가능합니다.</strong></p>
-        <p>⏱️ 서비스 종료까지 남은 시간: <span id="countdown"></span></p>
-    </div> -->
-    <div id="notice" style="margin-bottom: 20px; font-size: 14px; color: #555;">
-      ⚠ 일시적인 서버 응답 지연이 발생했습니다.
-        무료 서버 특성상 첫 요청 시 시간이 걸릴 수 있습니다.
-        잠시 후 다시 시도하면 정상적으로 로그인됩니다.
-    </div>
-    <div class="login-container">
-        <h2>❄️ Seat Ninja 로그인</h2>
-        
-        <label for="userId">아이디:</label>
-        <input type="text" id="userId" class="input-field" placeholder="아이디 입력"><br>
+    <main class="app-shell">
+        <header class="hero">
+            <span class="chip">Seat Ninja</span>
+            <h1>빠르고 깔끔한 도서관 좌석 예약</h1>
+            <p class="lead">계정 정보를 입력하고 바로 좌석 예약을 시작하세요.</p>
+        </header>
 
-        <label for="userPw">비밀번호:</label>
-        <input type="password" id="userPw" class="input-field" placeholder="비밀번호 입력"><br>
-
-        <button type="button" class="login-btn" onclick="login()">로그인</button>
-
-        <div class="options">
-            <p><a href="https://login-proxy-server-production.up.railway.app/forgot-password">
-  비밀번호를 잊으셨나요?
-</a></p>
-            <p>계정이 없나요? <a href="#">회원가입</a></p>
+        <div id="notice" class="notice-banner">
+            ⚠ 일시적인 서버 응답 지연이 발생했습니다. 무료 서버 특성상 첫 요청 시 시간이 걸릴 수 있으며, 잠시 후 다시 시도하면 정상적으로 로그인됩니다.
         </div>
 
-        <p id="status"></p>
-    </div>
+        <section class="card col-5" style="max-width: 480px; margin: 0 auto;">
+            <h2>❄️ 로그인</h2>
+            <p class="muted">아이디와 비밀번호를 입력해주세요.</p>
+
+            <div class="form-field">
+                <label for="userId">아이디</label>
+                <input type="text" id="userId" class="input-field" placeholder="아이디 입력">
+            </div>
+
+            <div class="form-field">
+                <label for="userPw">비밀번호</label>
+                <input type="password" id="userPw" class="input-field" placeholder="비밀번호 입력">
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="login()">로그인</button>
+
+            <div class="options">
+                <p><a href="https://login-proxy-server-production.up.railway.app/forgot-password">비밀번호를 잊으셨나요?</a></p>
+                <p>계정이 없나요? <a href="#">회원가입</a></p>
+            </div>
+
+            <p id="status" class="status-message"></p>
+        </section>
+    </main>
 
     <script src="script.js"></script>
-    <!-- <script>
-        function updateCountdown() {
-            const endDate = new Date("2025-06-03T00:00:00"); // 종료 시점
-            const now = new Date();
-            const diff = endDate - now;
-
-            if (diff <= 0) {
-                document.getElementById("countdown").innerText = "서비스가 종료되었습니다.";
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById("countdown").innerText =
-                `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
-        }
-
-        setInterval(updateCountdown, 1000); // 1초마다 갱신
-        updateCountdown(); // 초기 호출
-    </script> -->
-
 </body>
 </html>

@@ -4,149 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>즐겨찾기 좌석</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="favorites.js" defer></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        p {
-            font-size: 14px;
-            color: #555;
-        }
-        /* ✅ 다크 모드 스타일 추가 */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1c1c1e;
-                color: #fff;
-            }
-
-            .card {
-                background-color: #2c2c2e;
-                box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.05);
-            }
-
-            h2 {
-                color: #fff;
-            }
-
-            p {
-                color: #ccc;
-            }
-
-            .btn-primary {
-                background-color: #35567a;
-                color: white;
-            }
-
-            .btn-primary:hover {
-                background-color: #518bbd;
-            }
-
-            .btn-secondary {
-                background-color: #3a3a3c;
-                color: white;
-            }
-
-            .btn-secondary:hover {
-                background-color: #636366;
-            }
-
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h2>⭐ 즐겨찾기 좌석 1열</h2>
-            <p>아래 좌석 중 원하는 좌석을 클릭하면 즉시 예약됩니다.</p>
-            <div id="favoritesContainer">불러오는 중...</div>
-        </div>
+    <main class="app-shell">
+        <header class="hero">
+            <span class="chip">Favorites</span>
+            <h1>자주 쓰는 좌석을 바로 예약</h1>
+            <p class="lead">클릭 한 번으로 배석 확정까지 이어지는 빠른 즐겨찾기 화면입니다.</p>
+        </header>
 
-        <div class = "card">
-            <h2>⭐ 즐겨찾기 좌석 3열</h2>
-            <p>아래 좌석 중 원하는 좌석을 클릭하면 즉시 예약됩니다.</p>
-            <div id="favoritesContainer_3">불러오는 중...</div>
-        </div>
-        
-        <div class = "card">
-            <h2>웅대 ver</h2>
-            <p>아래 좌석 중 원하는 좌석을 클릭하면 즉시 예약됩니다.</p>
-            <div class="card">
-                <div class="card">
-                    <h2>⭐ 웅대 즐겨찾기 좌석 1열</h2>
-                    <p>아래 좌석 중 원하는 좌석을 클릭하면 즉시 예약됩니다.</p>
-                    <div id="Woong_1">불러오는 중...</div>
-                </div>
-
-                <div class = "card">
-                    <h2>⭐ 웅대 즐겨찾기 좌석 3열</h2>
-                    <p>아래 좌석 중 원하는 좌석을 클릭하면 즉시 예약됩니다.</p>
-                    <div id="Woong_3">불러오는 중...</div>
-                </div>
-
+        <section class="card-grid">
+            <div class="card col-6">
+                <h2>⭐ 즐겨찾기 좌석 1열</h2>
+                <p class="muted">원하는 좌석을 선택하면 즉시 예약을 시도합니다.</p>
+                <div id="favoritesContainer" class="favorites-list">불러오는 중...</div>
             </div>
 
-        </div>
+            <div class="card col-6">
+                <h2>⭐ 즐겨찾기 좌석 3열</h2>
+                <p class="muted">원하는 좌석을 선택하면 즉시 예약을 시도합니다.</p>
+                <div id="favoritesContainer_3" class="favorites-list">불러오는 중...</div>
+            </div>
 
-        <div class="card">
-            <button class="btn btn-secondary" onclick="goBack()">⬅ 뒤로 가기</button>
-        </div>
-    </div>
+            <div class="card col-6">
+                <h2>⭐ 웅대 즐겨찾기 좌석 1열</h2>
+                <p class="muted">웅대용 1열 좌석 바로 예약</p>
+                <div id="Woong_1" class="favorites-list">불러오는 중...</div>
+            </div>
+
+            <div class="card col-6">
+                <h2>⭐ 웅대 즐겨찾기 좌석 3열</h2>
+                <p class="muted">웅대용 3열 좌석 바로 예약</p>
+                <div id="Woong_3" class="favorites-list">불러오는 중...</div>
+            </div>
+
+            <div class="card col-12">
+                <button class="btn btn-secondary" onclick="goBack()">⬅ 뒤로 가기</button>
+            </div>
+        </section>
+    </main>
 
     <script>
         function goBack() {
-            window.location.href = "main.html";  // ✅ 메인 페이지로 이동
+            window.location.href = "main.html";
         }
     </script>
 </body>

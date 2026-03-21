@@ -4,251 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 정보 - Seat Ninja</title>
-    <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-        }
-
-        /* 카드형 스타일 */
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        h2 {
-            color: #333;
-            text-align: center;
-        }
-
-        /* 버튼 스타일 */
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #b02a37;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        p {
-            font-size: 14px;
-            color: #555;
-        }
-
-        strong {
-            color: #333;
-        }
-
-        /* 상태 메시지 스타일 */
-        #renewStatus, #cancelStatus {
-            margin-top: 10px;
-            font-weight: bold;
-            color: red;
-            text-align: center;
-        }
-
-        /* 좌석 연장 & 배석 해제 반반 레이아웃 */
-        .row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .row .half-card {
-            width: 48%;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        /* QR 코드 스타일 */
-        .qr-card {
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #qrCode {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 0; /* 상단 여백 추가 */
-            margin-bottom: 60px;
-            
-        }
-        #statusBox {
-            background-color: #aee1f9; /* 하늘색 배경 */
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-            color: #222;
-            line-height: 1.6;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1c1c1e;
-                color: #ffffff;
-            }
-
-            h2, p, strong, span {
-                color: #ffffff;
-            }
-
-            .card,
-            .qr-card,
-            .row .half-card {
-                background-color: #2c2c2e;
-                box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.05);
-            }
-
-            .btn-primary {
-                background-color: #35567a;
-                color: white;
-            }
-
-            .btn-primary:hover {
-                background-color: #518bbd;
-            }
-
-            .btn-danger {
-                background-color: #7e0909;
-                color: white;
-            }
-
-            .btn-danger:hover {
-                background-color: #aa2525;
-            }
-
-            .btn-secondary {
-                background-color: #3a3a3c;
-                color: white;
-            }
-
-            .btn-secondary:hover {
-                background-color: #636366;
-            }
-
-            #renewStatus,
-            #cancelStatus {
-                color: #ff6b6b;
-            }
-            #statusBox {
-                background-color: #2f4e61; /* 어두운 톤의 하늘색 */
-                color: #ffffff; /* 흰색 글씨 */
-                box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
-                margin-bottom: 15px;
-
-            }
-        }
-
-
-        
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h2>📌 내 좌석 정보</h2>
-            <p><strong>현재 좌석:</strong> <span id="userSeat">조회 중...</span></p>
-            <p><strong>잔여 시간:</strong> <span id="remainingTime">조회 중...</span></p>
-            <p><strong>연장 가능 시간:</strong> <span id="renewTime">조회 중...</span></p>
-            <p><strong>연장 가능 횟수:</strong> <span id="renewalCount">조회 중...</span></p>
-        </div>
+    <main class="app-shell">
+        <header class="hero">
+            <span class="chip">My Info</span>
+            <h1>내 좌석 상태와 QR 확인</h1>
+            <p class="lead">연장, 배석 해제, 마법 버튼까지 한 번에 관리할 수 있습니다.</p>
+        </header>
 
-        <div class="row">
-            <div class="half-card">
-                <h2>🔄 좌석 연장</h2>
-                <button class="btn btn-primary" onclick="renewSeat()">연장하기</button>
-                <p id="renewStatus"></p>
-            </div>
-            <div class="half-card">
-                <h2>❌ 배석 해제</h2>
-                <button class="btn btn-danger" onclick="cancelReservation()">배석 해제</button>
-                <p id="cancelStatus"></p>
-            </div>
-        </div>
-
-        <div class="qr-card">
-            <h2>📌QR</h2>
-            <p id="qrStatus">QR 코드 로딩 중...</p>
-            <div id="qrCode"></div>
-        </div>
-
-        <div class="card">
-            <div id="statusBox">
-                <p>
-                    📌 현재 도서관의 좌석 이용 정책은<br>
-                    "하루 12시간 제한"으로 안내되고 있습니다.<br>
-                    하지만 이 제한은<br>
-                    <strong>계정당 누적 이용 시간 기준이 아닌,</strong><br>
-                    <strong>단일 예약 건 기준</strong>으로 적용되고 있어<br>
-                    예약 취소 후 재예약 시<br>
-                    사실상 <strong>시간 제한 없이 이용이 가능합니다.</strong>
-                </p>
+        <section class="card-grid">
+            <div class="card col-7">
+                <h2>📌 내 좌석 정보</h2>
+                <div class="info-list">
+                    <div class="info-item"><strong>현재 좌석</strong><span id="userSeat">조회 중...</span></div>
+                    <div class="info-item"><strong>잔여 시간</strong><span id="remainingTime">조회 중...</span></div>
+                    <div class="info-item"><strong>연장 가능 시간</strong><span id="renewTime">조회 중...</span></div>
+                    <div class="info-item"><strong>연장 가능 횟수</strong><span id="renewalCount">조회 중...</span></div>
+                </div>
             </div>
 
-            <button class="btn btn-primary" onclick="magicRebook()">✨ 마법 버튼 (정책 우회)</button>
-            <p id="status" style="margin-top: 10px; font-weight: bold;"></p>
-        </div>
+            <div class="card qr-card col-5">
+                <h2>📌 QR</h2>
+                <p id="qrStatus" class="muted">QR 코드 로딩 중...</p>
+                <div id="qrCode"></div>
+            </div>
 
-        <div class="card">
-            <button class="btn btn-secondary" onclick="goBack()">⬅ 뒤로 가기</button>
-        </div>
-    </div>
+            <div class="card col-12">
+                <div class="row">
+                    <div class="half-card">
+                        <h2>🔄 좌석 연장</h2>
+                        <button class="btn btn-primary" onclick="renewSeat()">연장하기</button>
+                        <p id="renewStatus" class="status-message"></p>
+                    </div>
+                    <div class="half-card">
+                        <h2>❌ 배석 해제</h2>
+                        <button class="btn btn-danger" onclick="cancelReservation()">배석 해제</button>
+                        <p id="cancelStatus" class="status-message"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-12">
+                <div id="statusBox">
+                    📌 현재 도서관의 좌석 이용 정책은 "하루 12시간 제한"으로 안내되고 있습니다. 하지만 이 제한은 <strong>계정당 누적 이용 시간 기준이 아닌 단일 예약 건 기준</strong>으로 적용되어, 예약 취소 후 재예약 시 사실상 시간 제한 없이 이용이 가능합니다.
+                </div>
+                <button class="btn btn-primary" onclick="magicRebook()">✨ 마법 버튼 (정책 우회)</button>
+                <p id="status" class="status-message"></p>
+            </div>
+
+            <div class="card col-12">
+                <button class="btn btn-secondary" onclick="goBack()">⬅ 뒤로 가기</button>
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

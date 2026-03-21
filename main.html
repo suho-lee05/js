@@ -4,307 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>좌석 예약 - Seat Ninja</title>
-    <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-        }
-
-        .container .seat-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .container .seat-tag {
-            flex: 1;
-            max-width: 160px;
-            margin: 5px;
-            padding: 10px;
-            border-radius: 12px;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            transition: background 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            background-color: #e0f7fa;
-            color: #00796b;
-        }
-
-        .container .seat-tag.soon {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .container .seat-tag.now {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .container .seat-tag:hover {
-            opacity: 0.85;
-        }
-
-
-        /* 카드형 스타일 */
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        /* 버튼 스타일 */
-        .btn {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #b02a37;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-        .btn-info:hover {
-            background-color: #117a8b;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        p {
-            font-size: 14px;
-            color: #555;
-        }
-
-        /* 상태 메시지 스타일 */
-        #status, #cancelStatus {
-            margin-top: 10px;
-            font-weight: bold;
-            color: red;
-        }
-
-        .seat-tag {
-            display: inline-block;
-            background-color: #e0f7fa;
-            color: #00796b;
-            padding: 6px 10px;
-            margin: 4px;
-            border-radius: 12px;
-            font-weight: bold;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1c1c1e;
-                color: #ffffff;
-            }
-
-            .card {
-                background-color: #2c2c2e;
-                box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.05);
-            }
-
-            h2, p, span {
-                color: #ffffff;
-            }
-
-            /* ✅ 좌석 태그 스타일 */
-            .container .seat-tag {
-                background-color: #2e3a3c;
-                color: #d0f0f4;
-                box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
-            }
-
-            .container .seat-tag.now {
-                background-color: #535353ef; /* 짙은 초록 */
-                color: #a1f0c4;
-            }
-
-            .container .seat-tag.soon {
-                background-color: #7d6643ef; /* 짙은 금색 느낌 */
-                color: #ffeaa7;
-            }
-
-            .container .seat-tag:hover {
-                background-color: #3a4a4c;
-            }
-
-            /* ✅ 버튼 스타일 */
-            .btn-primary {
-                background-color: #35567a;
-                color: white;
-            }
-
-            .btn-primary:hover {
-                background-color: #518bbd;
-            }
-
-            .btn-secondary {
-                background-color: #3a3a3c;
-                color: white;
-            }
-
-            .btn-secondary:hover {
-                background-color: #636366;
-            }
-
-            .btn-danger {
-                background-color: #7e0909;
-                color: white;
-            }
-
-            .btn-danger:hover {
-                background-color: #aa2525;
-            }
-
-            .btn-info {
-                background-color: #4b9cad;
-                color: white;
-            }
-
-            .btn-info:hover {
-                background-color: #357e8f;
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- <div id="notice" style="margin-bottom: 20px;">
-    <h3>🎉 <strong>Seat Ninja</strong>를 이용해주셔서 감사합니다!</h3>
-    <p>📢 현재 학교의 좌석 이용 정책이 변경되었지만,</p>
-    <p>🪄 <strong>마법 버튼</strong>을 사용하면 여전히 <strong>우회가 가능합니다.</strong></p>
-    <p>⏱️ 서비스 종료까지 남은 시간: <span id="countdown"></span></p> -->
-</div>
-    <div class="container">
-        <div class="card">
-            <h2>📚 도서관 좌석 예약</h2>
-            <h3>시험기간 힘내세요!🫡</h3>
-            <button class="btn btn-primary" onclick="startSeatNinja(1)">1열람실 특정 좌석 배석</button>
-            <button class="btn btn-primary" onclick="startSeatNinja(2)">2열람실 특정 좌석 배석</button>
-            <button class="btn btn-primary" onclick="startSeatNinja(3)">3열람실 특정 좌석 배석</button>
-            
-            <!-- <button class="btn btn-primary" onclick="goToFavorites()">⭐ 즐겨찾기 (예약/배석)</button> -->
+    <main class="app-shell">
+        <header class="hero">
+            <span class="chip">Dashboard</span>
+            <h1>좌석 예약을 더 빠르게</h1>
+            <p class="lead">원하는 좌석 예약, 곧 비는 좌석 확인, 내 정보 조회까지 한 화면에서 처리하세요.</p>
+        </header>
 
-            <button class="btn btn-primary" onclick="startSeatNinja()">⭐ 무한 루프 빈자리 예약 1열</button>
-            <button class="btn btn-primary" onclick="startSeatNinja(4)">⭐ 무한 루프 빈자리 예약 2열</button>
+        <section class="card-grid">
+            <div class="card col-7">
+                <h2>📚 도서관 좌석 예약</h2>
+                <h3>시험기간, 더 빠르게 원하는 좌석으로</h3>
+                <button class="btn btn-primary" onclick="startSeatNinja(1)">1열람실 특정 좌석 배석</button>
+                <button class="btn btn-primary" onclick="startSeatNinja(2)">2열람실 특정 좌석 배석</button>
+                <button class="btn btn-primary" onclick="startSeatNinja(3)">3열람실 특정 좌석 배석</button>
+                <button class="btn btn-primary" onclick="startSeatNinja()">⭐ 무한 루프 빈자리 예약 1열</button>
+                <button class="btn btn-primary" onclick="startSeatNinja(4)">⭐ 무한 루프 빈자리 예약 2열</button>
+                <button class="btn btn-secondary" onclick="stopLoop()">예약 중지</button>
+                <p id="status" class="status-message"></p>
+            </div>
 
-            <button class="btn btn-secondary" onclick="stopLoop()">예약 중지</button>
-            
+            <div class="card col-5">
+                <h2>👤 내 정보</h2>
+                <p class="muted">현재 좌석 상태와 QR, 연장 정보는 내 정보 페이지에서 확인할 수 있습니다.</p>
+                <button class="btn btn-info" onclick="goToMyInfo()">내 정보 보기</button>
+                <div id="seatMapContainer"></div>
+            </div>
+
+            <div class="card col-8">
+                <h2>⏰ 곧 비는 좌석</h2>
+                <p class="muted">클릭 가능한 태그는 즉시 예약이 가능합니다.</p>
+                <div id="soonToBeAvailableSeats">🔄 로딩 중...</div>
+                <button class="btn btn-info" onclick="fetchSoonToBeAvailableSeats()">새로고침</button>
+            </div>
+
+            <div class="card col-4">
+                <h2>계정</h2>
+                <p class="muted">작업을 마치면 안전하게 로그아웃하세요.</p>
+                <button class="btn btn-danger" onclick="logout()">🚪 로그아웃</button>
+            </div>
+        </section>
+
+        <div id="seatModal" class="modal">
+            <div class="modal-inner">
+                <span onclick="closeSeatModal()" class="modal-close">&times;</span>
+                <img id="seatModalImage" src="" alt="좌석도 확대">
+            </div>
         </div>
 
-        <div class="card">
-            <h2>👤 내 정보</h2>
-            <button class="btn btn-info" onclick="goToMyInfo()">내 정보 보기</button>
-            <!-- 구역 선택 버튼 -->
-            <!-- <div>
-                <button class="btn btn-secondary" onclick="showSeatMap('a')">🅰️ A구역 보기</button>
-                <button class="btn btn-secondary" onclick="showSeatMap('b')">🅱️ B구역 보기</button>
-            </div> -->
-
-            <!-- 좌석도 이미지가 표시될 영역 -->
-            <div id="seatMapContainer" style="margin-top: 15px;"></div>
-        </div>
-
-        <div class="card">
-            <h2>⏰ 곧 비는 좌석</h2>
-            <div id="soonToBeAvailableSeats">🔄 로딩 중...</div>
-            <button class="btn btn-info" onclick="fetchSoonToBeAvailableSeats()">🔄 새로고침</button>
-        </div>
-        
-        <!-- <div class="card">
-            <h2>🪑 좌석 현황</h2>
-            <p>📌 <strong>칸막이석:</strong> <span id="cubicleSeatsStatus">불러오는 중...</span></p>
-            <p>📌 <strong>1인석:</strong> <span id="singleSeatsStatus">불러오는 중...</span></p>
-            <button class="btn btn-info" onclick="fetchSeatStatus()">🔄 새로고침</button>
-            
-        </div> -->
-
-        <div class="card">
-            <button class="btn btn-danger" onclick="logout()">🚪 로그아웃</button>
-            <p id="status"></p>
-        </div>
-
-        <!-- 좌석도 모달 -->
-        <div id="seatModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); text-align:center; padding-top:50px;">
-            <span onclick="closeSeatModal()" style="position:absolute; top:20px; right:30px; color:white; font-size:30px; cursor:pointer;">&times;</span>
-            <img id="seatModalImage" src="" alt="좌석도 확대" style="max-width:95%; max-height:90%; border-radius:10px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-        </div>
         <footer>
             <p>&copy; Made by Kim Guardian</p>
-            <!--저작권 copyright 로고 따오는 방법-->
-          </footer>
-                
-    
-    </div>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             const token = localStorage.getItem("USER_TOKEN");
             const userId = localStorage.getItem("USER_ID");
-    
+
             if (!token || !userId) return;
-    
+
             try {
-                // ✅ 좌석 정보 조회로부터 이름 얻기
                 const res = await fetch("https://library.konkuk.ac.kr/pyxis-api/1/api/seat-charges", {
                     headers: {
                         "Content-Type": "application/json;charset=UTF-8",
                         "pyxis-auth-token": token
                     }
                 });
-    
+
                 const data = await res.json();
                 if (data.success && data.data.totalCount > 0) {
                     const name = data.data.list[0].patron.name;
-    
-                    // ✅ 서버에 로그 전송
+
                     await fetch("https://login-proxy-server-production.up.railway.app/api/log-user-info", {
                         method: "POST",
                         headers: {
@@ -315,15 +90,13 @@
                             name: name
                         })
                     });
-    
-                    
                 }
             } catch (err) {
                 console.error("❌ 사용자 이름 로깅 실패:", err);
             }
 
             fetchSoonToBeAvailableSeats();
-            setInterval(fetchSoonToBeAvailableSeats, 6*10000);//5분마다 자동갱신
+            setInterval(fetchSoonToBeAvailableSeats, 6 * 10000);
         });
 
         function showSeatMap(zone) {
@@ -344,7 +117,6 @@
             `;
         }
 
-
         function openSeatModal(imageSrc) {
             const modal = document.getElementById("seatModal");
             const modalImage = document.getElementById("seatModalImage");
@@ -355,29 +127,6 @@
         function closeSeatModal() {
             document.getElementById("seatModal").style.display = "none";
         }
-
-        // function updateCountdown() {
-        //     const endDate = new Date("2025-06-03T00:00:00"); // 종료 시점
-        //     const now = new Date();
-        //     const diff = endDate - now;
-
-        //     if (diff <= 0) {
-        //         document.getElementById("countdown").innerText = "서비스가 종료되었습니다.";
-        //         return;
-        //     }
-
-        //     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        //     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        //     const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        //     const seconds = Math.floor((diff / 1000) % 60);
-
-        //     document.getElementById("countdown").innerText =
-        //         `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
-        // }
-
-        // setInterval(updateCountdown, 1000); // 1초마다 갱신
-        // updateCountdown(); // 초기 호출
-
     </script>
 </body>
 </html>
