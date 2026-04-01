@@ -50,6 +50,21 @@ let seatNumber = null;
 // }
 // //
 
+// 도메인 리다이렉트
+if (window.location.hostname === "seatninja.shop") {
+  window.location.href = "https://seatninja.store";
+}
+
+// 공지 alert (1회만)
+window.addEventListener("load", function () {
+  if (!localStorage.getItem("domainNoticeShown")) {
+    alert(
+      "⚠️ 도메인 변경 안내\n\n기존 주소(seatninja.shop)는 곧 종료됩니다.\n👉 seatninja.store 로 접속해주세요.\n\n※ 접속이 느릴 경우 잠시 기다리면 정상 이용 가능합니다."
+    );
+    localStorage.setItem("domainNoticeShown", "true");
+  }
+});
+
 async function login() {
     const USER_ID = document.getElementById("userId").value;
     const USER_PW = document.getElementById("userPw").value;
