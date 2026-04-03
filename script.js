@@ -51,9 +51,9 @@ let seatNumber = null;
 // //
 
 // 도메인 리다이렉트
-//if (window.location.hostname === "seatninja.shop") {
-  //window.location.href = "https://seatninja.store";
-//}
+if (window.location.hostname === "seatninja.shop") {
+  window.location.href = "https://seatninja.store";
+}
 
 // 공지 alert (1회만)
 window.addEventListener("load", function () {
